@@ -1,0 +1,206 @@
+:root {
+  --red: #CE3A2A;
+  --red-hover: #B02E20;
+  --ink: #2B2B2B;
+  --light: #F4F4F4;
+  --dark: #161616;
+  --line: #E3E3E3;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  font-family: "PT Sans", Roboto, "Segoe UI", Arial, sans-serif;
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+h1, p { margin: 0; }
+
+.wrap {
+  width: min(100%, 1180px);
+  margin-inline: auto;
+  padding-inline: clamp(20px, 4vw, 48px);
+}
+
+.masthead {
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-block: 14px;
+}
+
+.brand img {
+  display: block;
+  flex: none;
+  width: 52px;
+  height: auto;
+}
+
+.brand-name {
+  font-size: clamp(1rem, 1.5vw, 1.1875rem);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.notice {
+  flex: 1;
+  display: grid;
+  align-items: center;
+  color: #fff;
+  background: var(--dark);
+}
+
+.notice-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(32px, 5vw, 72px);
+  padding-block: clamp(48px, 8vh, 84px);
+}
+
+.message h1 {
+  max-width: 11em;
+  font-size: clamp(2.125rem, 4.9vw, 4.375rem);
+  font-weight: 800;
+  line-height: 1.04;
+  letter-spacing: -.035em;
+  text-wrap: balance;
+}
+
+.message h1::before {
+  content: "";
+  display: block;
+  width: 46px;
+  height: 4px;
+  margin-bottom: 22px;
+  background: var(--red);
+  border-radius: 2px;
+}
+
+.message p {
+  max-width: 57ch;
+  margin-top: 22px;
+  color: #dedede;
+  font-size: clamp(1.0625rem, 1.35vw, 1.1875rem);
+  line-height: 1.6;
+}
+
+.sales {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: clamp(22px, 2.7vw, 36px);
+  background: #232323;
+  border: 1px solid #404040;
+  border-radius: 10px;
+}
+
+.sales p {
+  color: #ebebeb;
+  font-size: 1.0625rem;
+}
+
+.phone, .call {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  max-width: 100%;
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.phone {
+  margin-block: 14px 16px;
+  font-size: clamp(1.5rem, 2.25vw, 2rem);
+  line-height: 1.2;
+  letter-spacing: -.025em;
+}
+
+.phone:hover, .phone:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: .14em;
+}
+
+.call {
+  width: 100%;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 15px;
+  background: var(--red);
+  border-radius: 6px;
+  line-height: 1.35;
+  text-align: center;
+}
+
+.call svg { flex: none; }
+.call:hover, .call:active { background: var(--red-hover); }
+
+a:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 4px;
+}
+
+.footer {
+  padding-block: 17px;
+  background: var(--light);
+  border-top: 1px solid var(--line);
+  color: #535353;
+  font-size: .875rem;
+}
+
+@media (max-width: 54rem) {
+  .notice-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+    padding-block: 36px;
+  }
+
+  .message h1 { max-width: 16em; }
+  .sales { max-width: 30rem; }
+}
+
+@media (max-width: 32rem) {
+  .brand { padding-block: 10px; }
+  .brand img { width: 44px; }
+  .brand-name { max-width: 15em; }
+
+  .notice-layout {
+    gap: 22px;
+    padding-block: 28px;
+  }
+
+  .message h1::before { margin-bottom: 16px; }
+  .message p { margin-top: 16px; }
+  .sales { padding: 18px; }
+  .phone { margin-block: 6px 10px; }
+  .footer { padding-block: 12px; }
+}
+
+@media (max-width: 22.5rem) {
+  .wrap { padding-inline: 16px; }
+  .brand { gap: 10px; }
+  .brand img { width: 40px; }
+  .notice-layout { padding-block: 20px; gap: 16px; }
+  .message p { font-size: 1rem; line-height: 1.5; }
+  .sales {
+    padding: 14px 0 0;
+    border: 0;
+    border-top: 1px solid #404040;
+    border-radius: 0;
+    background: transparent;
+  }
+  .sales p { font-size: 1rem; }
+  .call { padding-inline: 10px; gap: 8px; }
+}
