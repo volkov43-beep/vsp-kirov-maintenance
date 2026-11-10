@@ -19,21 +19,31 @@
   </header>
 
   <main class="notice">
-    <div class="wrap notice-layout">
+    <div class="notice-layout">
       <div class="message">
         <h1>Сайт временно недоступен</h1>
         <p>В связи с восстановительными работами после кибератаки на инфраструктуру хостинг-провайдера основной сайт Вятского станкостроительного завода временно недоступен.</p>
+        <div class="sales">
+          <p>Для консультаций по оборудованию и услугам свяжитесь с нашим отделом продаж.</p>
+          <a class="phone" href="tel:+78007072676">8 (800) 707-26-76</a>
+          <a class="call" href="tel:+78007072676">
+            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7.2 3.5H4.8c-.8 0-1.4.6-1.3 1.5.7 7.8 7.7 14.8 15.5 15.5.9.1 1.5-.5 1.5-1.3v-2.4c0-.6-.4-1.1-1-1.3l-3.2-.9c-.5-.1-1 0-1.3.4l-1.4 1.4a15.9 15.9 0 0 1-6-6L9 9c.4-.3.5-.8.4-1.3l-.9-3.2c-.2-.6-.7-1-1.3-1Z"/>
+            </svg>
+            <span>Позвонить в отдел продаж</span>
+          </a>
+        </div>
       </div>
-      <div class="sales">
-        <p>Для консультаций по оборудованию и услугам свяжитесь с нашим отделом продаж.</p>
-        <a class="phone" href="tel:+78007072676">8 (800) 707-26-76</a>
-        <a class="call" href="tel:+78007072676">
-          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M7.2 3.5H4.8c-.8 0-1.4.6-1.3 1.5.7 7.8 7.7 14.8 15.5 15.5.9.1 1.5-.5 1.5-1.3v-2.4c0-.6-.4-1.1-1-1.3l-3.2-.9c-.5-.1-1 0-1.3.4l-1.4 1.4a15.9 15.9 0 0 1-6-6L9 9c.4-.3.5-.8.4-1.3l-.9-3.2c-.2-.6-.7-1-1.3-1Z"/>
-          </svg>
-          Позвонить в отдел продаж
-        </a>
-      </div>
+
+      <picture class="production">
+        <source media="(min-width: 68em)"
+                srcset="./assets/production-detail-720.webp 720w, ./assets/production-detail-1120.webp 1120w, ./assets/production-detail-1700.webp 1700w"
+                sizes="max(50vw, 600px, calc(125svh - 170px)), 50vw" width="1700" height="1360">
+        <img src="./assets/production-768.webp"
+             srcset="./assets/production-480.webp 480w, ./assets/production-768.webp 768w, ./assets/production-1200.webp 1200w, ./assets/production-1600.webp 1600w, ./assets/production-2048.webp 2048w"
+             sizes="100vw" width="768" height="512" fetchpriority="high"
+             alt="Сотрудник ВСЗ у фрезерного станка. Перед ним шпиндель и заготовка, закреплённая на рабочем столе.">
+      </picture>
     </div>
   </main>
 
