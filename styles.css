@@ -5,6 +5,8 @@
   --light: #F4F4F4;
   --dark: #161616;
   --line: #E3E3E3;
+  --page-width: 1400px;
+  --gutter: clamp(20px, 4vw, 60px);
 }
 
 * { box-sizing: border-box; }
@@ -18,14 +20,15 @@ body {
   font-family: "PT Sans", Roboto, "Segoe UI", Arial, sans-serif;
   color: var(--ink);
   line-height: 1.5;
+  overflow-wrap: anywhere;
 }
 
 h1, p { margin: 0; }
 
 .wrap {
-  width: min(100%, 1180px);
+  width: min(100%, var(--page-width));
   margin-inline: auto;
-  padding-inline: clamp(20px, 4vw, 48px);
+  padding-inline: var(--gutter);
 }
 
 .masthead {
@@ -48,7 +51,7 @@ h1, p { margin: 0; }
 }
 
 .brand-name {
-  font-size: clamp(1rem, 1.5vw, 1.1875rem);
+  font-size: 1.125rem;
   font-weight: 700;
   line-height: 1.25;
 }
@@ -56,22 +59,23 @@ h1, p { margin: 0; }
 .notice {
   flex: 1;
   display: grid;
-  align-items: center;
   color: #fff;
   background: var(--dark);
 }
 
 .notice-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
-  align-items: center;
-  gap: clamp(32px, 5vw, 72px);
-  padding-block: clamp(48px, 8vh, 84px);
+  grid-template-columns: minmax(0, 1fr);
+  align-content: center;
+}
+
+.message {
+  padding: 36px var(--gutter);
 }
 
 .message h1 {
-  max-width: 11em;
-  font-size: clamp(2.125rem, 4.9vw, 4.375rem);
+  max-width: 14em;
+  font-size: 3rem;
   font-weight: 800;
   line-height: 1.04;
   letter-spacing: -.035em;
@@ -83,32 +87,33 @@ h1, p { margin: 0; }
   display: block;
   width: 46px;
   height: 4px;
-  margin-bottom: 22px;
+  margin-bottom: 20px;
   background: var(--red);
   border-radius: 2px;
 }
 
-.message p {
-  max-width: 57ch;
-  margin-top: 22px;
+.message > p {
+  max-width: 56ch;
+  margin-top: 18px;
   color: #dedede;
-  font-size: clamp(1.0625rem, 1.35vw, 1.1875rem);
-  line-height: 1.6;
+  font-size: 1.125rem;
+  line-height: 1.55;
 }
 
 .sales {
+  max-width: 55ch;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid #474747;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: clamp(22px, 2.7vw, 36px);
-  background: #232323;
-  border: 1px solid #404040;
-  border-radius: 10px;
 }
 
 .sales p {
+  max-width: 46ch;
   color: #ebebeb;
-  font-size: 1.0625rem;
+  font-size: 1rem;
 }
 
 .phone, .call {
@@ -122,8 +127,8 @@ h1, p { margin: 0; }
 }
 
 .phone {
-  margin-block: 14px 16px;
-  font-size: clamp(1.5rem, 2.25vw, 2rem);
+  margin-block: 5px 12px;
+  font-size: 2rem;
   line-height: 1.2;
   letter-spacing: -.025em;
 }
@@ -134,12 +139,12 @@ h1, p { margin: 0; }
 }
 
 .call {
-  width: 100%;
   justify-content: center;
   gap: 10px;
-  padding: 14px 15px;
+  padding: 14px 22px;
   background: var(--red);
   border-radius: 6px;
+  font-size: 1rem;
   line-height: 1.35;
   text-align: center;
 }
@@ -152,6 +157,23 @@ a:focus-visible {
   outline-offset: 4px;
 }
 
+.production {
+  display: block;
+  position: relative;
+  aspect-ratio: 3 / 2;
+  background: #252525;
+}
+
+.production img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
 .footer {
   padding-block: 17px;
   background: var(--light);
@@ -160,47 +182,62 @@ a:focus-visible {
   font-size: .875rem;
 }
 
-@media (max-width: 54rem) {
+@media (min-width: 68em) {
   .notice-layout {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 28px;
-    padding-block: 36px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-content: stretch;
   }
 
-  .message h1 { max-width: 16em; }
-  .sales { max-width: 30rem; }
+  .message {
+    align-self: center;
+    justify-self: end;
+    width: min(100%, calc(var(--page-width) / 2));
+    padding-block: clamp(36px, 6vh, 72px);
+  }
+
+  .message h1 { font-size: 3.5rem; }
+
+  .production {
+    min-height: 480px;
+    aspect-ratio: auto;
+  }
+
+  .production img { object-position: 54% 45%; }
 }
 
-@media (max-width: 32rem) {
-  .brand { padding-block: 10px; }
+@media (min-width: 80em) {
+  .message h1 { font-size: 4rem; }
+}
+
+@media (max-width: 32em) {
+  :root { --gutter: 18px; }
+  .brand { padding-block: 10px; gap: 10px; }
   .brand img { width: 44px; }
-  .brand-name { max-width: 15em; }
-
-  .notice-layout {
-    gap: 22px;
-    padding-block: 28px;
-  }
-
-  .message h1::before { margin-bottom: 16px; }
-  .message p { margin-top: 16px; }
-  .sales { padding: 18px; }
-  .phone { margin-block: 6px 10px; }
+  .brand-name { max-width: 15em; font-size: 1rem; }
+  .message { padding-block: 24px; }
+  .message h1 { font-size: 2.125rem; }
+  .message h1::before { margin-bottom: 14px; }
+  .message > p { margin-top: 14px; font-size: 1rem; line-height: 1.5; }
+  .sales { margin-top: 16px; padding-top: 12px; }
+  .phone { font-size: 1.625rem; margin-block: 3px 8px; }
+  .call { width: 100%; padding-inline: 12px; }
   .footer { padding-block: 12px; }
 }
 
-@media (max-width: 22.5rem) {
-  .wrap { padding-inline: 16px; }
-  .brand { gap: 10px; }
-  .brand img { width: 40px; }
-  .notice-layout { padding-block: 20px; gap: 16px; }
-  .message p { font-size: 1rem; line-height: 1.5; }
-  .sales {
-    padding: 14px 0 0;
-    border: 0;
-    border-top: 1px solid #404040;
-    border-radius: 0;
-    background: transparent;
-  }
-  .sales p { font-size: 1rem; }
-  .call { padding-inline: 10px; gap: 8px; }
+@media (max-height: 35em) {
+  .message { padding-block: 18px; }
+  .sales { margin-top: 12px; padding-top: 10px; }
+}
+
+/* Keep the call action in view on phones held horizontally. */
+@media (min-width: 36em) and (max-width: 67.99em) and (max-height: 30em) {
+  .brand { padding-block: 6px; }
+  .brand img { width: 36px; }
+  .message { padding-block: 14px; }
+  .message h1 { font-size: 2rem; }
+  .message h1::before { margin-bottom: 8px; }
+  .message > p { max-width: 72ch; margin-top: 10px; font-size: 1rem; line-height: 1.45; }
+  .sales { max-width: 72ch; margin-top: 10px; padding-top: 8px; }
+  .sales p { max-width: none; }
+  .phone { margin-block: 0 4px; font-size: 1.625rem; }
 }
