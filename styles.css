@@ -250,7 +250,7 @@ a:focus-visible {
     padding-block: clamp(36px, 6vh, 72px);
   }
 
-  .message h1 { font-size: 3.25rem; }
+  .message h1 { font-size: clamp(2.5rem, 4vw, 3.5rem); }
 
   .production {
     min-height: 480px;
@@ -267,17 +267,13 @@ a:focus-visible {
   .production img { object-position: 54% 45%; }
 }
 
-@media (min-width: 80em) {
-  .message h1 { font-size: 3.75rem; }
-}
-
 @media (max-width: 32em) {
   :root { --gutter: 18px; }
   .brand { padding-block: 10px; gap: 10px; }
   .brand .brand-mark { width: 44px; }
   .brand-name { max-width: 15em; font-size: 1rem; }
   .message { padding-block: 24px; }
-  .message h1 { font-size: 2rem; }
+  .message h1 { font-size: clamp(1.625rem, 8.2vw, 2rem); }
   .message h1::before { margin-bottom: 14px; }
   .message > p { margin-top: 14px; font-size: 1rem; line-height: 1.6; }
   .sales { margin-top: 16px; padding-top: 12px; }
