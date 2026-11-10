@@ -147,7 +147,7 @@ h1, p { margin: 0; }
   font-size: 1rem;
 }
 
-.phone, .call {
+.phone, .email, .call {
   display: inline-flex;
   align-items: center;
   min-height: 48px;
@@ -157,14 +157,23 @@ h1, p { margin: 0; }
 }
 
 .phone {
-  margin-block: 5px 12px;
+  margin-top: 5px;
   font-size: 2rem;
   line-height: 1.2;
   font-weight: 600;
   font-variant-numeric: lining-nums tabular-nums;
 }
 
-.phone:hover, .phone:focus-visible {
+.email {
+  min-height: 44px;
+  margin-bottom: 12px;
+  color: #dedede;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.phone:hover, .phone:focus-visible,
+.email:hover, .email:focus-visible {
   text-decoration: underline;
   text-underline-offset: .14em;
 }
@@ -278,7 +287,8 @@ a:focus-visible {
   .message > p { margin-top: 14px; font-size: 1rem; line-height: 1.6; }
   .sales { margin-top: 16px; padding-top: 12px; }
   .sales p { max-width: 20rem; }
-  .phone { font-size: 1.625rem; margin-block: 3px 8px; }
+  .phone { font-size: 1.625rem; margin-top: 3px; }
+  .email { font-size: 1rem; margin-bottom: 8px; }
   .call { width: 100%; padding-inline: 12px; }
   .footer { padding-block: 8px; }
 }
@@ -308,5 +318,6 @@ a:focus-visible {
   .message > p { max-width: 72ch; margin-top: 10px; font-size: 1rem; line-height: 1.55; }
   .sales { max-width: 72ch; margin-top: 10px; padding-top: 8px; }
   .sales p { max-width: none; }
-  .phone { margin-block: 0 4px; font-size: 1.625rem; }
+  .phone { margin-top: 0; font-size: 1.625rem; }
+  .email { margin-bottom: 4px; font-size: 1rem; }
 }
