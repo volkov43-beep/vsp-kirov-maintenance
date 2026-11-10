@@ -1,3 +1,27 @@
+@font-face {
+  font-family: "Open Sans";
+  src: url("./assets/fonts/open-sans-regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Open Sans";
+  src: url("./assets/fonts/open-sans-semibold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Open Sans";
+  src: url("./assets/fonts/open-sans-bold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
 :root {
   --red: #CE3A2A;
   --red-hover: #B02E20;
@@ -17,9 +41,13 @@ body {
   min-height: 100svh;
   display: flex;
   flex-direction: column;
-  font-family: "PT Sans", Roboto, "Segoe UI", Arial, sans-serif;
+  font-family: "Open Sans", Arial, sans-serif;
+  font-weight: 400;
+  font-synthesis: none;
+  /* Match the supplied regular face’s x-height (1096 / 2048) during font swaps. */
+  font-size-adjust: .535;
   color: var(--ink);
-  line-height: 1.5;
+  line-height: 1.6;
   overflow-wrap: anywhere;
 }
 
@@ -43,17 +71,20 @@ h1, p { margin: 0; }
   padding-block: 14px;
 }
 
-.brand img {
+.brand-mark {
   display: block;
   flex: none;
-  width: 52px;
   height: auto;
+  border-radius: 9px;
+  object-fit: contain;
 }
+
+.brand .brand-mark { width: 52px; }
 
 .brand-name {
   font-size: 1.125rem;
-  font-weight: 700;
-  line-height: 1.25;
+  font-weight: 600;
+  line-height: 1.35;
 }
 
 .notice {
@@ -74,11 +105,11 @@ h1, p { margin: 0; }
 }
 
 .message h1 {
-  max-width: 14em;
-  font-size: 3rem;
-  font-weight: 800;
-  line-height: 1.04;
-  letter-spacing: -.035em;
+  max-width: 12em;
+  font-size: 2.75rem;
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -.01em;
   text-wrap: balance;
 }
 
@@ -97,7 +128,7 @@ h1, p { margin: 0; }
   margin-top: 18px;
   color: #dedede;
   font-size: 1.125rem;
-  line-height: 1.55;
+  line-height: 1.6;
 }
 
 .sales {
@@ -122,7 +153,6 @@ h1, p { margin: 0; }
   min-height: 48px;
   max-width: 100%;
   color: #fff;
-  font-weight: 700;
   text-decoration: none;
 }
 
@@ -130,7 +160,8 @@ h1, p { margin: 0; }
   margin-block: 5px 12px;
   font-size: 2rem;
   line-height: 1.2;
-  letter-spacing: -.025em;
+  font-weight: 600;
+  font-variant-numeric: lining-nums tabular-nums;
 }
 
 .phone:hover, .phone:focus-visible {
@@ -145,7 +176,8 @@ h1, p { margin: 0; }
   background: var(--red);
   border-radius: 6px;
   font-size: 1rem;
-  line-height: 1.35;
+  font-weight: 700;
+  line-height: 1.4;
   text-align: center;
 }
 
@@ -175,12 +207,20 @@ a:focus-visible {
 }
 
 .footer {
-  padding-block: 17px;
+  padding-block: 12px;
   background: var(--light);
   border-top: 1px solid var(--line);
   color: #535353;
   font-size: .875rem;
 }
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-brand .brand-mark { width: 28px; }
 
 @media (min-width: 68em) {
   .notice-layout {
@@ -195,7 +235,7 @@ a:focus-visible {
     padding-block: clamp(36px, 6vh, 72px);
   }
 
-  .message h1 { font-size: 3.5rem; }
+  .message h1 { font-size: 3.25rem; }
 
   .production {
     min-height: 480px;
@@ -206,22 +246,33 @@ a:focus-visible {
 }
 
 @media (min-width: 80em) {
-  .message h1 { font-size: 4rem; }
+  .message h1 { font-size: 3.75rem; }
 }
 
 @media (max-width: 32em) {
   :root { --gutter: 18px; }
   .brand { padding-block: 10px; gap: 10px; }
-  .brand img { width: 44px; }
+  .brand .brand-mark { width: 44px; }
   .brand-name { max-width: 15em; font-size: 1rem; }
   .message { padding-block: 24px; }
-  .message h1 { font-size: 2.125rem; }
+  .message h1 { font-size: 2rem; }
   .message h1::before { margin-bottom: 14px; }
-  .message > p { margin-top: 14px; font-size: 1rem; line-height: 1.5; }
+  .message > p { margin-top: 14px; font-size: 1rem; line-height: 1.6; }
   .sales { margin-top: 16px; padding-top: 12px; }
+  .sales p { max-width: 20rem; }
   .phone { font-size: 1.625rem; margin-block: 3px 8px; }
   .call { width: 100%; padding-inline: 12px; }
-  .footer { padding-block: 12px; }
+  .footer { padding-block: 8px; }
+}
+
+@media (max-width: 22.5em) {
+  :root { --gutter: 16px; }
+  .brand .brand-mark { width: 40px; }
+  .brand-name { font-size: .9375rem; }
+  .message { padding-block: 16px; }
+  .message h1::before { margin-bottom: 10px; }
+  .message > p { margin-top: 10px; line-height: 1.55; }
+  .sales { margin-top: 12px; padding-top: 10px; }
 }
 
 @media (max-height: 35em) {
@@ -232,11 +283,11 @@ a:focus-visible {
 /* Keep the call action in view on phones held horizontally. */
 @media (min-width: 36em) and (max-width: 67.99em) and (max-height: 30em) {
   .brand { padding-block: 6px; }
-  .brand img { width: 36px; }
+  .brand .brand-mark { width: 36px; }
   .message { padding-block: 14px; }
-  .message h1 { font-size: 2rem; }
+  .message h1 { max-width: none; font-size: 2rem; }
   .message h1::before { margin-bottom: 8px; }
-  .message > p { max-width: 72ch; margin-top: 10px; font-size: 1rem; line-height: 1.45; }
+  .message > p { max-width: 72ch; margin-top: 10px; font-size: 1rem; line-height: 1.55; }
   .sales { max-width: 72ch; margin-top: 10px; padding-top: 8px; }
   .sales p { max-width: none; }
   .phone { margin-block: 0 4px; font-size: 1.625rem; }

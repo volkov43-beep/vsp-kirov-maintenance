@@ -8,12 +8,15 @@
   <meta name="robots" content="noindex">
   <title>Сайт временно недоступен — Вятский станкостроительный завод</title>
   <link rel="icon" href="./assets/favicon.png" type="image/png" sizes="48x48">
+  <link rel="preload" href="./assets/fonts/open-sans-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./assets/fonts/open-sans-semibold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./assets/fonts/open-sans-bold.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
   <header class="masthead">
     <div class="wrap brand">
-      <img src="./assets/vsz-logo.webp" width="224" height="224" alt="">
+      <img class="brand-mark" src="./assets/vsz-logo.webp" width="224" height="224" alt="">
       <span class="brand-name">Вятский станкостроительный завод</span>
     </div>
   </header>
@@ -22,9 +25,9 @@
     <div class="notice-layout">
       <div class="message">
         <h1>Сайт временно недоступен</h1>
-        <p>В связи с восстановительными работами после кибератаки на инфраструктуру хостинг-провайдера основной сайт Вятского станкостроительного завода временно недоступен.</p>
+        <p>В связи с восстановительными работами после кибератаки на инфраструктуру хостинг-провайдера основной сайт Вятского станкостроительного завода временно недоступен</p>
         <div class="sales">
-          <p>Для консультаций по оборудованию и услугам свяжитесь с нашим отделом продаж.</p>
+          <p>Для консультаций по оборудованию и услугам свяжитесь с нашим отделом продаж</p>
           <a class="phone" href="tel:+78007072676">8 (800) 707-26-76</a>
           <a class="call" href="tel:+78007072676">
             <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -48,7 +51,10 @@
   </main>
 
   <footer class="footer">
-    <div class="wrap">Вятский станкостроительный завод</div>
+    <div class="wrap footer-brand">
+      <span>Вятский станкостроительный завод</span>
+      <img class="brand-mark" src="./assets/vsz-logo.webp" width="224" height="224" alt="">
+    </div>
   </footer>
 </body>
 </html>
