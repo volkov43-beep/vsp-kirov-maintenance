@@ -116,7 +116,7 @@ def main() -> None:
         print(f"LIVE: uploaded {len(files)} files. No remote files were deleted.")
     except ssl.SSLError:
         fail("TLS certificate or handshake failed. Never disable certificate verification.")
-    except (ftplib.all_errors, OSError) as error:
+    except ftplib.all_errors as error:
         fail("FTPS connection or transfer failed (" + type(error).__name__ + ").")
     finally:
         ftp.close()
