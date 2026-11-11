@@ -1,0 +1,79 @@
+name: "Build and publish VSZ to REG.RU"
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: vsz-reg-ru-deployment
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      RELEASE_DIR: ${{ runner.temp }}/vsz-public
+      REG_DEPLOY_MODE: ${{ vars.REG_DEPLOY_MODE }}
+    steps:
+      - name: Checkout approved site sources
+        uses: actions/checkout@v4
+
+      - name: Validate and stage static files
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile .github/scripts/reg_ru_ftps_deploy.py
+          python3 - <<'PY'
+          import os
+          import shutil
+          from pathlib import Path
+
+          source_files = [Path("index.html"), Path("styles.css")]
+          source_files += sorted(Path("assets").rglob("*"))
+          out = Path(os.environ["RELEASE_DIR"])
+          out.mkdir(parents=True, exist_ok=True)
+
+          count = 0
+          for source in source_files:
+              if source.is_symlink():
+                  raise SystemExit("Publishing symlinks is forbidden")
+              if not source.is_file():
+                  continue
+              target = out / source
+              target.parent.mkdir(parents=True, exist_ok=True)
+              shutil.copy2(source, target)
+              count += 1
+
+          if not (out / "index.html").exists() or not (out / "styles.css").exists():
+              raise SystemExit("Required static entrypoint files are missing")
+          if count < 3:
+              raise SystemExit("Expected images and fonts under assets/")
+          print(f"Staged {count} static site files.")
+          PY
+
+      - name: Check deployment mode
+        shell: bash
+        run: |
+          case "${REG_DEPLOY_MODE:-off}" in
+            off) echo "Deployment OFF (default): package validated; no FTP connection." ;;
+            dry-run) echo "DRY RUN: remote read-only check will follow on main only." ;;
+            live) echo "LIVE: approved main-branch deployment will follow." ;;
+            *) echo "::error::REG_DEPLOY_MODE must be off, dry-run or live"; exit 1 ;;
+          esac
+
+      - name: Check FTPS safely / publish only when explicitly live
+        if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && (vars.REG_DEPLOY_MODE == 'dry-run' || vars.REG_DEPLOY_MODE == 'live') }}
+        shell: bash
+        env:
+          FTP_HOST: ${{ secrets.REG_FTP_SERVER }}
+          FTP_USER: ${{ secrets.REG_FTP_USERNAME }}
+          FTP_PASS: ${{ secrets.REG_FTP_PASSWORD }}
+        run: |
+          python3 .github/scripts/reg_ru_ftps_deploy.py
