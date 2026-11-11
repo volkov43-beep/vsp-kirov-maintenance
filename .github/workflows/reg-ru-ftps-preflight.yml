@@ -1,0 +1,96 @@
+name: "REG.RU FTPS preflight (read-only)"
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: reg-ru-ftps-preflight
+  cancel-in-progress: false
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      FTP_HOST: ${{ secrets.REG_FTP_SERVER }}
+      FTP_USER: ${{ secrets.REG_FTP_USERNAME }}
+      FTP_PASS: ${{ secrets.REG_FTP_PASSWORD }}
+    steps:
+      - name: Check required GitHub secrets
+        shell: bash
+        run: |
+          for key in FTP_HOST FTP_USER FTP_PASS; do
+            if [ -z "${!key}" ]; then
+              echo "::error::Required secret for $key is missing."
+              exit 1
+            fi
+          done
+
+      - name: Verify FTPS TLS, login and FTP root (no writes)
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import ftplib
+          import os
+          import pathlib
+          import socket
+          import ssl
+          import sys
+          
+          host = os.environ["FTP_HOST"]
+          user = os.environ["FTP_USER"]
+          password = os.environ["FTP_PASS"]
+          ftp = ftplib.FTP_TLS(context=ssl.create_default_context(), timeout=15)
+          
+          def fail(message):
+              print("::error::" + message)
+              sys.exit(1)
+          
+          try:
+              ftp.connect(host, 21, timeout=15)
+              print("FTP control port 21 is reachable.")
+              ftp.login(user=user, passwd=password)
+              print("FTPS control-channel certificate verified; authentication passed.")
+              ftp.prot_p()
+              print("Encrypted FTPS data-channel mode enabled (PROT P).")
+          
+              home = ftp.pwd()
+              names = {
+                  pathlib.PurePosixPath(name.rstrip("/")).name
+                  for name in ftp.nlst()
+              }
+              print("Read-only encrypted directory listing succeeded.")
+              if "index.html" not in names:
+                  fail("index.html was not found in the FTP home directory; check FTP root.")
+              print("Expected REG.RU placeholder index.html found.")
+          
+              try:
+                  ftp.cwd("..")
+                  parent = ftp.pwd()
+              except ftplib.error_perm:
+                  print("Parent directory traversal was denied.")
+              else:
+                  if parent != home:
+                      fail("FTP user can navigate ABOVE its home directory. Stop before deploying.")
+                  print("Parent directory traversal stays inside the FTP home.")
+          
+              print("PASS: FTPS is usable for read-only preflight. No files changed.")
+          except ssl.SSLCertVerificationError as exc:
+              fail("TLS certificate validation failed: " + str(exc.verify_message)[:180]
+                   + ". Do not disable TLS verification; identify the matching server hostname.")
+          except (socket.timeout, TimeoutError, ConnectionRefusedError, socket.gaierror) as exc:
+              fail("Connection failed (" + type(exc).__name__
+                   + "). Check the FTP hostname, port 21, and network accessibility.")
+          except ftplib.error_perm as exc:
+              fail("FTP login or directory access was refused (reply "
+                   + str(exc)[:3] + "). Check the separate deploy account and its permissions.")
+          except ssl.SSLError as exc:
+              fail("FTPS TLS negotiation failed (" + type(exc).__name__ + ").")
+          except Exception as exc:
+              fail("Read-only FTPS preflight failed (" + type(exc).__name__ + ").")
+          finally:
+              ftp.close()
+          PY
