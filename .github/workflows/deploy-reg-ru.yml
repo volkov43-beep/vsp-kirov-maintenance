@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
-      RELEASE_DIR: ${{ runner.temp }}/vsz-public
+      RELEASE_DIR: .reg-ru-public
       REG_DEPLOY_MODE: ${{ vars.REG_DEPLOY_MODE }}
     steps:
       - name: Checkout approved site sources
